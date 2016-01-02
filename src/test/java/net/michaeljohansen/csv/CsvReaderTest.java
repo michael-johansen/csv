@@ -24,6 +24,18 @@ public class CsvReaderTest {
     }
 
     @Test
+    public void canHandleWindowNewline() throws Exception {
+        CsvReader csvReader = new CsvReader("1\r\n,2\r\n");
+        List<List<String>> rows = csvReader.getRows();
+
+        assertThat(rows, is(notNullValue()));
+        assertThat(rows.size(), is(2));
+
+        assertThat(rows.get(0), hasItems("1"));
+        assertThat(rows.get(1), hasItems("2"));
+    }
+
+    @Test
     public void adjacentFieldsAreSeparatedWithCommaWithStream() throws Exception {
         CsvReader csvReader = new CsvReader(new ByteArrayInputStream("1997,Ford,E350\n".getBytes(StandardCharsets.UTF_8)));
         List<List<String>> rows = csvReader.getRows();
