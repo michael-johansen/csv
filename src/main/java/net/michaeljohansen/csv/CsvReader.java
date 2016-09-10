@@ -59,10 +59,17 @@ public class CsvReader {
         Consumer<Character> characterConsumer = getCharacterConsumer(operation);
         characterConsumer.accept(character);
       }
+      finishOpenEntity();
       close();
       this.lazyResult = rows;
     }
     return lazyResult;
+  }
+
+  private void finishOpenEntity() {
+    if (state != State.OUTSIDE_VALUE) {
+      getCharacterConsumer(getOperation('\n')).accept('\n');
+    }
   }
 
   private Consumer<Character> getCharacterConsumer(Operation operation) {

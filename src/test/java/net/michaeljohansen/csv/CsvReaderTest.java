@@ -6,7 +6,6 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.*;
@@ -28,6 +27,18 @@ public class CsvReaderTest {
   @Test
   public void canHandleWindowNewline() {
     CsvReader csvReader = new CsvReader("1\r\n,2\r\n");
+    List<List<String>> rows = csvReader.getRows();
+
+    assertThat(rows, is(notNullValue()));
+    assertThat(rows.size(), is(2));
+
+    assertThat(rows.get(0), hasItems("1"));
+    assertThat(rows.get(1), hasItems("2"));
+  }
+
+  @Test
+  public void shouldNotRequireTerminatingNewLine() {
+    CsvReader csvReader = new CsvReader("1\r\n,2");
     List<List<String>> rows = csvReader.getRows();
 
     assertThat(rows, is(notNullValue()));
