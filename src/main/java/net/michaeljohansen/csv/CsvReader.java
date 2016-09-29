@@ -67,7 +67,7 @@ public class CsvReader {
   }
 
   private void finishOpenEntity() {
-    if (state != State.OUTSIDE_VALUE) {
+    if (!records.isEmpty()) {
       getCharacterConsumer(getOperation('\n')).accept('\n');
     }
   }

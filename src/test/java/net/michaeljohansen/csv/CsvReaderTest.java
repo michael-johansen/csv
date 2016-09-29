@@ -38,7 +38,7 @@ public class CsvReaderTest {
 
   @Test
   public void shouldNotRequireTerminatingNewLine() {
-    CsvReader csvReader = new CsvReader("1\r\n,2");
+    CsvReader csvReader = new CsvReader("1,\r\n,2,");
     List<List<String>> rows = csvReader.getRows();
 
     assertThat(rows, is(notNullValue()));
